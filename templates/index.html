@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cn_bing_translator_flask</title>
+    <link rel="stylesheet" href="https://unpkg.com/simpledotcss@2.2.1/simple.min.css">
+</head>
+
+<body>
+    <header>
+        <h1>cn_bing_translator_flask</h1>
+    </header>
+
+    <main>
+        <form id="translate-form" action="/api/translate" method="POST">
+            <textarea name="source" id="source" required placeholder="需要翻译的文本"></textarea>
+            <input name="fromLang" id="fromLang" value="auto-detect" placeholder="原文本语言">
+            <input name="toLang" id="toLang" value="en" placeholder="翻译后语言">
+            <br />
+            <input type="submit" id="submit" value="提交">
+        </form>
+        <textarea id="result" name="result" readonly placeholder="翻译结果"></textarea>
+    </main>
+
+    <script>
+        const source = document.getElementById('source');
+        const fromLang = document.getElementById('fromLang');
+        const toLang = document.getElementById('toLang');
+        const submit = document.getElementById('submit');
+        const result = document.getElementById('result');
+
+        submit.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            result.value = '';
+
+            const data = {
+                source: source.value,
+                fromLang: fromLang.value,
+                toLang: toLang.value
+            }
+
+            fetch('/api/translate', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    result.value = data.result;
+                    ResizeTextarea(result);
+                })
+        })
+    </script>
+
+    <script>
+        /* https://stackoverflow.com/questions/454202/creating-a-textarea-with-auto-resize */
+        const tx = document.getElementsByTagName("textarea");
+        for (let i = 0; i < tx.length; i++) {
+            tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;resize:vertical;");
+            tx[i].addEventListener("input", OnInput, false);
+
+        }
+
+        function OnInput() {
+            this.style.height = 0;
+            this.style.height = (this.scrollHeight) + "px";
+        }
+
+        function ResizeTextarea(element) {
+            element.style.height = 0;
+            element.style.height = (this.scrollHeight) + "px";
+        }
+    </script>
+</body>
+
+</html>
