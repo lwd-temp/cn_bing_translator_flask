@@ -20,13 +20,7 @@ def translate():
     fromLang = default_string_handler(body["fromLang"], "auto-detect")
     toLang = default_string_handler(body["toLang"], "en")
 
-    # if fromLang auto-detect
-    if fromLang == "auto-detect":
-        translator = Translator(toLang=toLang, cnBing=False)
-    else:
-        # if fromLang not auto-detect
-        translator = Translator(
-            fromLang=fromLang, toLang=toLang, cnBing=False)
+    translator = Translator(fromLang=fromLang, toLang=toLang, cnBing=False)
 
     result = translator.process(source)
 
