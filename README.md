@@ -1,4 +1,22 @@
-# 微软bing翻译器python sdk
+# API Call
+
+```python
+import requests
+
+headers = {
+    'content-type': 'application/json',
+}
+
+json_data = {
+    'source': 'Hello world!',
+    'fromLang': 'auto-detect',
+    'toLang': 'zh-Hans',
+}
+
+response = requests.post('https://your.domain/api/translate', headers=headers, json=json_data)
+```
+
+## 微软bing翻译器python sdk
 
 [![PyPI version](https://badge.fury.io/py/cn_bing_translator.svg)](https://badge.fury.io/py/cn_bing_translator)
 [![Download count](https://img.shields.io/pypi/dm/cn_bing_translator)](https://img.shields.io/pypi/dm/cn_bing_translator)
